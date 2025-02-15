@@ -29,7 +29,8 @@ jobs:
         run: mvn clean install -DskipTests
       - name: Run Unit Tests
         run: mvn test
-      - name: Run Tosca Tests
-        run: |
-          cd "C:\Program Files\TRICENTIS\Tosca Testsuite\ToscaCommander"
-          ./TestEvent.exe --runConfig "C:\Path\To\Tosca\ExecutionConfig.tce"
+      - name: Run SonarQube Analysis
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: "https://sonarcloud.io"
+        run: mvn sonar:sonar -Dsonar.login=$SONAR_TOKEN -Dsonar.host.url=$SONAR_HOST_URL
